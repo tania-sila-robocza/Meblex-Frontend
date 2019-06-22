@@ -1,0 +1,15 @@
+@import '../shared/variables.scss';
+
+.toast {
+    margin: 0 10px;
+    border-radius: 5px !important;
+    border: 1px solid $colorPrimary;
+
+    .toastBody {
+        margin: auto 15px;
+    }
+
+    .toastProgress {
+        background: $colorPrimary;
+    }
+}

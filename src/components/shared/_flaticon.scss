@@ -1,0 +1,134 @@
+@font-face {
+  font-family: "Flaticon";
+  src: url("/fonts/Flaticon.eot");
+  src: url("/fonts/Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("/Flaticon.woff") format("woff"),
+       url("/fonts/Flaticon.ttf") format("truetype"),
+       url("/fonts/Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("/fonts/Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+.fi:before{
+  display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.icon-wardrobe:before { content: "\f100"; }
+.icon-tv-table:before { content: "\f101"; }
+.icon-table-1:before { content: "\f102"; }
+.icon-storage-1:before { content: "\f103"; }
+.icon-storage:before { content: "\f104"; }
+.icon-armchair:before { content: "\f105"; }
+.icon-sofa:before { content: "\f106"; }
+.icon-single-bed:before { content: "\f107"; }
+.icon-sideboard:before { content: "\f108"; }
+.icon-shelves:before { content: "\f109"; }
+.icon-rocking-chair:before { content: "\f10a"; }
+.icon-rack:before { content: "\f10b"; }
+.icon-plant:before { content: "\f10c"; }
+.icon-ottoman:before { content: "\f10d"; }
+.icon-desk-1:before { content: "\f10e"; }
+.icon-office-chair:before { content: "\f10f"; }
+.icon-nightstand:before { content: "\f110"; }
+.icon-mirror:before { content: "\f111"; }
+.icon-mattress:before { content: "\f112"; }
+.icon-locker:before { content: "\f113"; }
+.icon-lamp:before { content: "\f114"; }
+.icon-cart:before { content: "\f115"; }
+.icon-kitchen:before { content: "\f116"; }
+.icon-stool:before { content: "\f117"; }
+.icon-closet:before { content: "\f118"; }
+.icon-folding-chair:before { content: "\f119"; }
+.icon-cabinet-1:before { content: "\f11a"; }
+.icon-dresser:before { content: "\f11b"; }
+.icon-double-bed:before { content: "\f11c"; }
+.icon-dining-table:before { content: "\f11d"; }
+.icon-cupboard-1:before { content: "\f11e"; }
+.icon-dining-chair:before { content: "\f11f"; }
+.icon-deck-chair:before { content: "\f120"; }
+.icon-couch:before { content: "\f121"; }
+.icon-cabinet:before { content: "\f122"; }
+.icon-desk:before { content: "\f123"; }
+.icon-coffee-table:before { content: "\f124"; }
+.icon-coat-stand:before { content: "\f125"; }
+.icon-clothes-rack:before { content: "\f126"; }
+.icon-chest-of-drawers:before { content: "\f127"; }
+.icon-chandelier:before { content: "\f128"; }
+.icon-chair:before { content: "\f129"; }
+.icon-carpet:before { content: "\f12a"; }
+.icon-bunk-bed:before { content: "\f12b"; }
+.icon-bookcase:before { content: "\f12c"; }
+.icon-bench:before { content: "\f12d"; }
+.icon-bean:before { content: "\f12e"; }
+.icon-cupboard:before { content: "\f12f"; }
+.icon-table:before { content: "\f130"; }
+.icon-bar-stool:before { content: "\f131"; }
+    
+$icon-wardrobe: "\f100";
+$icon-tv-table: "\f101";
+$icon-table-1: "\f102";
+$icon-storage-1: "\f103";
+$icon-storage: "\f104";
+$icon-armchair: "\f105";
+$icon-sofa: "\f106";
+$icon-single-bed: "\f107";
+$icon-sideboard: "\f108";
+$icon-shelves: "\f109";
+$icon-rocking-chair: "\f10a";
+$icon-rack: "\f10b";
+$icon-plant: "\f10c";
+$icon-ottoman: "\f10d";
+$icon-desk-1: "\f10e";
+$icon-office-chair: "\f10f";
+$icon-nightstand: "\f110";
+$icon-mirror: "\f111";
+$icon-mattress: "\f112";
+$icon-locker: "\f113";
+$icon-lamp: "\f114";
+$icon-cart: "\f115";
+$icon-kitchen: "\f116";
+$icon-stool: "\f117";
+$icon-closet: "\f118";
+$icon-folding-chair: "\f119";
+$icon-cabinet-1: "\f11a";
+$icon-dresser: "\f11b";
+$icon-double-bed: "\f11c";
+$icon-dining-table: "\f11d";
+$icon-cupboard-1: "\f11e";
+$icon-dining-chair: "\f11f";
+$icon-deck-chair: "\f120";
+$icon-couch: "\f121";
+$icon-cabinet: "\f122";
+$icon-desk: "\f123";
+$icon-coffee-table: "\f124";
+$icon-coat-stand: "\f125";
+$icon-clothes-rack: "\f126";
+$icon-chest-of-drawers: "\f127";
+$icon-chandelier: "\f128";
+$icon-chair: "\f129";
+$icon-carpet: "\f12a";
+$icon-bunk-bed: "\f12b";
+$icon-bookcase: "\f12c";
+$icon-bench: "\f12d";
+$icon-bean: "\f12e";
+$icon-cupboard: "\f12f";
+$icon-table: "\f130";
+$icon-bar-stool: "\f131";

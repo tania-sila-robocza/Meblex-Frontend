@@ -1,0 +1,149 @@
+@import '../shared/variables.scss';
+@import 'reset.scss';
+@import 'flaticon.scss';
+@import 'toast.scss';
+
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');
+
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  // overflow-x: hidden;
+}
+
+body {
+  font-size: 16px;
+  text-align: left;
+
+  background: $colorBackground;
+  color: $colorText;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p, span, div {
+  color: $colorText;
+  font-size: 1em;
+}
+
+p {
+  margin: 10px 0;
+}
+
+b {
+  font-weight: bold;
+  color: $colorTextDark;
+  font-size: 1em;
+}
+
+strong {
+  @extend b;
+  color: $colorPrimary;
+}
+
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+  color: $colorTextDark;
+  margin: 30px 0;
+}
+
+h1 { font-size: 3.2em; }
+h2 { font-size: 2.2em; }
+h3 { font-size: 1.5em; }
+h4 { font-size: 1.2em; }
+
+h5, h6 {
+  font-weight: 300;
+  color: $colorTextDark;
+}
+
+
+input[type=text], 
+input[type=number], 
+input[type=tel], 
+input[type=password],
+input[type=email],
+textarea,
+select {
+  box-shadow: 0 2px 4px $colorShadow;
+  border: 1px solid rgb(229, 232, 237);
+  padding: 10px 15px;
+  font-family: 'Noto Sans';
+  font-size: 0.9em;
+  color: $colorTextDark;
+  background: $colorBackgroundGray;
+  border-radius: 5px;
+}
+
+
+section {
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: justify;
+
+  .title {
+    text-align: left;
+  }
+
+  &.hor {
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 70px 0;
+  }
+
+  &.gray {
+    background: $colorBackgroundGray;
+  }
+
+  &.primary {
+    background: $colorPrimary;
+  }
+}
+
+.card {
+  width: 100%;
+  padding: 40px;
+  box-shadow: 0 2px 4px $colorShadow;
+  border: 1px solid rgb(229, 232, 237);
+  background: #fff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+
+  & > .title {
+    margin: 0 0 20px;
+    text-align: left;
+  }
+
+  p {
+    margin: 10px 0;
+  }
+
+  &.wide {
+    width: 80%;
+  }
+}
+
+.ripple {
+  @include ripple(rgba(rgb(61, 61, 61), .2));
+}
