@@ -16,6 +16,7 @@ import NoItem from '../shared/NoItem';
 import Button from '../shared/Button';
 import * as API from '../../api';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import FurnitureList from './FurnitureList';
 
 
 const Catalog = ({ location: { search } }) => {
@@ -29,11 +30,10 @@ const Catalog = ({ location: { search } }) => {
   const rooms = rawRooms.map(room => ({ ...room, icon: getRoomIcon(room.roomId) }));
   const categories = rawCategories.map(category => ({ ...category, icon: getCategoryIcon(category.categoryId) }));
 
-  const [furniture, setFurniture] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [anyFilters, setAnyFilters] = useState(false);
   const [filtersCount, setFiltersCount] = useState(0);
+  const [finalFilters, setFinalFilters] = useState([]);
 
   const selectedRoom = new URLSearchParams(search).get('pokoj');
   const selectedCategory = new URLSearchParams(search).get('kategoria');
@@ -73,20 +73,14 @@ const Catalog = ({ location: { search } }) => {
       }
     `,
 
+    selected: css`
+      background: ${theme.colors.primary_01};
+    `,
+
     itemIcon: css`
       margin-top: 10px;
       height: 40px;
       fill: ${theme.colors.text};
-    `,
-
-    loading: css`
-      width: 50px;
-      height: 50px;
-      margin: 40px auto;
-
-      circle {
-        stroke: ${theme.colors.primary};
-      }
     `,
 
     searchSection: css`
@@ -124,7 +118,7 @@ const Catalog = ({ location: { search } }) => {
     `,
   };
 
-  const fetchFurniture = useCallback(async () => {
+  const computeFilters = useCallback(async () => {
     const filterBy = (type, selected, fromSearchBox, includeParts = false) => {
       const data = ((selected.length > 0) ? selected : [fromSearchBox]).filter(Boolean);
       return data.length === 0 ? undefined : data.map(d => (
@@ -132,12 +126,17 @@ const Catalog = ({ location: { search } }) => {
       )).join(' or ');
     };
 
+    const filterByName = () => (
+      filters.searchBox.name ? filters.searchBox.name.map(f => `(Id eq ${f.Id})`).join(' or ') : undefined
+    );
+
     const filter = [
       filterBy('color', filters.colors, filters.searchBox.color, true),
       filterBy('pattern', filters.patterns, filters.searchBox.pattern, true),
       filterBy('material', filters.materials, filters.searchBox.material, true),
       filterBy('category', selectedCategory ? [{ categoryId: selectedCategory }] : [], filters.searchBox.category),
       filterBy('room', selectedRoom ? [{ roomId: selectedRoom }] : [], filters.searchBox.room),
+      filterByName(),
     ].filter(Boolean);
 
     if (filter.length === 0) {
@@ -145,23 +144,12 @@ const Catalog = ({ location: { search } }) => {
       return;
     }
     setAnyFilters(true);
-
-    setIsLoading(true);
-    try {
-      const result = await API.getFurniture({
-        filter: `${filter.map(f => `(${f})`).join(' and ')}`,
-      });
-      setFurniture(result);
-    } catch (error) {
-      //
-    } finally {
-      setIsLoading(false);
-    }
+    setFinalFilters(filter);
   }, [filters, selectedCategory, selectedRoom]);
 
   useEffect(() => {
-    fetchFurniture();
-  }, [fetchFurniture]);
+    computeFilters();
+  }, [computeFilters]);
 
   useEffect(() => {
     const a = Object.keys(filters).filter(k => k !== 'searchBox').map(k => filters[k].length).reduce((a, b) => a + b);
@@ -186,25 +174,16 @@ const Catalog = ({ location: { search } }) => {
         </Button>
       </section>
 
-
-      {isLoading && (
-        <LoadingSpinner css={style.loading} isLoading={isLoading} />
-      )}
-
-      {!isLoading && furniture.length > 0 && (
-        <div>
-          {furniture.map((item, i) => <ItemResult data={item} key={i} />)}
-        </div>
-      )}
-
-      {!isLoading && furniture.length === 0 && anyFilters && (
-        <NoItem />
-      )}
+      <FurnitureList filter={finalFilters} anyFilters={anyFilters} perPage={10} />
 
       <h3 css={style.title}>Pokoje</h3>
       <section css={style.grid}>
         {rooms.map(Room => (
-          <Link to={{ pathname: '/katalog', search: `pokoj=${Room.roomId}` }} css={style.gridItem} key={Room.roomId}>
+          <Link
+            to={{ pathname: '/katalog', search: `pokoj=${Room.roomId}` }}
+            css={[style.gridItem, (parseInt(selectedRoom, 10) === Room.roomId) ? style.selected : null]}
+            key={Room.roomId}
+          >
             <Room.icon css={style.itemIcon} />
             <h4>{Room.name}</h4>
           </Link>
@@ -214,7 +193,11 @@ const Catalog = ({ location: { search } }) => {
       <h3 css={style.title}>Kategorie</h3>
       <section css={style.grid}>
         {categories.map(Cat => (
-          <Link to={{ pathname: '/katalog', search: `kategoria=${Cat.categoryId}` }} css={style.gridItem} key={Cat.categoryId}>
+          <Link
+            to={{ pathname: '/katalog', search: `kategoria=${Cat.categoryId}` }}
+            css={[style.gridItem, (parseInt(selectedCategory, 10) === Cat.categoryId) ? style.selected : null]}
+            key={Cat.categoryId}
+          >
             <Cat.icon css={style.itemIcon} />
             <h4>{Cat.name}</h4>
           </Link>

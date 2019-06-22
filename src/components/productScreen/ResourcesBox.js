@@ -29,6 +29,7 @@ const ResourcesBox = ({ title, product, type }) => {
       border-radius: 50%;
       border: 2px solid;
       margin-right: 20px;
+      background-size: cover;
     `,
 
     info: css`

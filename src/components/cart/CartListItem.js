@@ -1,14 +1,15 @@
 /** @jsx jsx */
 
-import { jsx, css } from '@emotion/core';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { css, jsx } from '@emotion/core';
 import Img from 'react-image';
-import { useTheme, getCategoryIcon } from '../../helpers';
+import { Link } from 'react-router-dom';
+import { getCategoryIcon, useTheme } from '../../helpers';
 import config from '../../config';
 
-const ItemResult = ({ data, ...props }) => {
+const CartListItem = ({ data, ...props }) => {
   const theme = useTheme();
-  const FallbackIcon = getCategoryIcon(data.category.categoryId);
+  const FallbackIcon = getCategoryIcon(data.item.category.categoryId);
 
   const style = {
     result: css`
@@ -49,6 +50,12 @@ const ItemResult = ({ data, ...props }) => {
       margin: 0;
       font-size: .8em;
     `,
+    amount: css`
+      font-size:.8em;
+      margin-right:10px;
+      color:#999;
+      font-weight:normal;
+    `,
 
     price: css`
       margin: 0 0 0 20px;
@@ -63,30 +70,24 @@ const ItemResult = ({ data, ...props }) => {
   };
 
   return (
-    <Link
-      to={{
-        pathname: `katalog/produkty/${data.id}`,
-        state: { product: data },
-      }}
-      css={style.result}
-      {...props}
-    >
+    <div css={style.result} {...props}>
       <div css={style.image}>
         <Img
-          src={`${config.IMAGES_SERVER}${data.photos[0]}`}
+          src={`${config.IMAGES_SERVER}${data.item.photos[0]}`}
           loader={<FallbackIcon css={style.fallbackIcon} />}
           unloader={<FallbackIcon css={style.fallbackIcon} />}
         />
       </div>
       <div css={style.textBox}>
-        <h4 css={style.text}>{data.name}</h4>
+        <h4 css={style.text}>{data.item.name}</h4>
       </div>
       <h3 css={style.price}>
-        {data.price}
+        <span css={style.amount}>{data.amount}x</span>
+        {data.item.price}
         <span css={style.currency}>zł</span>
       </h3>
-    </Link>
+    </div>
   );
 };
 
-export default ItemResult;
+export default CartListItem;

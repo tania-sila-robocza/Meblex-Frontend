@@ -70,7 +70,7 @@ const SearchBox = () => {
     let item;
     for (let i = 0; i < keywords.length; i += 1) {
       const result = fuse.search(keywords[i]);
-      if (result.length && result[0].matches.length && result[0].score < 0.5) {
+      if (result.length && result[0].score < 0.5) {
         item = result[0].item;
         keywords.splice(i, 1);
         break;
@@ -87,18 +87,25 @@ const SearchBox = () => {
     const categoryFuse = new Fuse(data.categories, { ...fuseConfig, keys: ['name'] });
     const patternFuse = new Fuse(data.patterns, { ...fuseConfig, keys: ['name'] });
     const materialFuse = new Fuse(data.materials, { ...fuseConfig, keys: ['name'] });
+    const nameFuse = new Fuse(data.listing, { ...fuseConfig, keys: ['Name'] });
 
     const [color, keywords1] = analyseQuery(colorFuse, keywords);
     const [category, keywords2] = analyseQuery(categoryFuse, keywords1);
     const [pattern, keywords3] = analyseQuery(patternFuse, keywords2);
     const [material, keywords4] = analyseQuery(materialFuse, keywords3);
 
-    // console.log('Kolor:', color);
-    // console.log('Wzór:', pattern);
-    // console.log('Materiał:', material);
-    // console.log('Kategoria:', category);
+    const name = [];
+    for (let i = 0; i < keywords4.length; i += 1) {
+      const result = nameFuse.search(keywords[i]);
+      if (result.length && result[0].matches.length && result[0].score < 0.5) {
+        const good = result.filter(r => r.score < 0.5).map(r => r.item);
+        name.push(...good);
+      }
+    }
 
-    dispatch(setSearchboxFilter({ color, pattern, material, category }));
+    dispatch(setSearchboxFilter({
+      color, pattern, material, category, name,
+    }));
   };
 
   const handleInput = ({ target }) => setFilter(target.value);

@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { css, jsx } from '@emotion/core';
 import { Link } from 'react-router-dom';
+import { error } from 'util';
 import Button from '../shared/Button';
 import Breadcrumbs from '../shared/Breadcrumbs';
 import PartsBox from './PartsBox';
@@ -11,9 +12,10 @@ import ProductInfo from './ProductInfo';
 import * as API from '../../api';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import config from '../../config';
+import NoItem from '../shared/NoItem';
 
 
-const Product = ({ match: { params } }) => {
+const Product = ({ match: { params }, location: { state } }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [product, setProduct] = useState();
 
@@ -114,21 +116,31 @@ const Product = ({ match: { params } }) => {
         const res = await API.getPieceOfFurniture(params.product);
         setProduct(res);
       } catch (err) {
-        //
+        console.log(error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchPoF();
-  }, [params.product]);
+
+    if (state && state.product) {
+      setProduct(state.product);
+      setIsLoading(false);
+    } else fetchPoF();
+  }, [params.product, state]);
 
   return (
     <React.Fragment>
-      {isLoading ? (
+      {isLoading && (
         <div css={style.loadingWrapper}>
           <LoadingSpinner css={style.loading} isLoading={isLoading} />
         </div>
-      ) : (
+      )}
+
+      {!isLoading && !product && (
+        <NoItem />
+      )}
+
+      {!isLoading && product && (
         <React.Fragment>
           <Breadcrumbs paths={[
             { name: product.room.name, url: `/katalog?pokoj=${product.room.roomId}` },
@@ -164,7 +176,7 @@ const Product = ({ match: { params } }) => {
             </div>
 
             {product.parts.length > 0 && (
-              <PartsBox parts={product.parts} />
+              <PartsBox product={product} />
             )}
           </div>
         </React.Fragment>

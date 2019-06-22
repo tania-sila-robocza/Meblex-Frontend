@@ -171,13 +171,24 @@ export const getFurniture = (config) => {
     params: {
       $orderby: config.sortBy,
       $top: config.limit,
+      $skip: config.skip,
       $filter: config.filter,
+      $search: config.search,
+      $select: config.select,
     },
     cancelToken: searchCancelToken.token,
   }).then(res => res.data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ));
 };
+
+export const getListing = () => (
+  client.get('Furniture/furniture', { params: {
+    $select: 'name,Id',
+  } }).then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
 
 export const getPieceOfFurniture = id => (
   client.get(`Furniture/pieceOfFurniture/${id}`).then(res => res.data).catch(err => (
@@ -241,6 +252,24 @@ export const getCustomSizeRequests = () => (
 
 export const acceptCustomSizeRequest = data => (
   client.post('CustomSize/accept', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const getClientOrders = () => (
+  client.get('ShoppingCart/client/list').then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const addOrder = data => (
+  client.post('ShoppingCart/make', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const realizeReservation = id => (
+  client.put(`ShoppingCart/client/realize-reservation/${id}`).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ))
 );
