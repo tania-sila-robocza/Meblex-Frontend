@@ -1,14 +1,24 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core';
+<<<<<<< HEAD
 import { useActions } from 'react-redux';
+=======
+import { useDispatch } from 'react-redux';
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 import { useTheme } from '../../helpers';
 import Button from '../shared/Button';
 import { addItemsToCart } from '../../redux/cart';
 
+<<<<<<< HEAD
 const PartsBox = ({ parts }) => {
   const theme = useTheme();
   const addToCart = useActions(item => addItemsToCart(item));
+=======
+const PartsBox = ({ product }) => {
+  const theme = useTheme();
+  const dispatch = useDispatch();
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
   const style = {
     box: css`
@@ -56,8 +66,16 @@ const PartsBox = ({ parts }) => {
     `,
   };
 
+<<<<<<< HEAD
   const addPart = (id) => {
     addToCart({ amount: 1, id });
+=======
+  const addPart = (part) => {
+    dispatch(addItemsToCart({
+      amount: 1,
+      item: { ...part, pieceOfFurnitureId: product.id },
+    }));
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
   };
 
   return (
@@ -65,10 +83,17 @@ const PartsBox = ({ parts }) => {
       <h3 css={style.title}>Zrób to sam!</h3>
       <p>Te części mebla możesz kupić oddzielnie:</p>
       <div css={style.parts}>
+<<<<<<< HEAD
         {parts.map(part => (
           <div css={style.part} key={part.partId}>
             <p>{part.name}</p>
             <Button css={style.addBtn} variant="secondary" onClick={() => addPart(part.partId)}>+</Button>
+=======
+        {product.parts.map(part => (
+          <div css={style.part} key={part.partId}>
+            <p>{part.name}</p>
+            <Button css={style.addBtn} variant="secondary" onClick={() => addPart(part)}>+</Button>
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
           </div>
         ))}
       </div>

@@ -16,6 +16,10 @@ import NoItem from '../shared/NoItem';
 import Button from '../shared/Button';
 import * as API from '../../api';
 import LoadingSpinner from '../shared/LoadingSpinner';
+<<<<<<< HEAD
+=======
+import FurnitureList from './FurnitureList';
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
 
 const Catalog = ({ location: { search } }) => {
@@ -29,11 +33,18 @@ const Catalog = ({ location: { search } }) => {
   const rooms = rawRooms.map(room => ({ ...room, icon: getRoomIcon(room.roomId) }));
   const categories = rawCategories.map(category => ({ ...category, icon: getCategoryIcon(category.categoryId) }));
 
+<<<<<<< HEAD
   const [furniture, setFurniture] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [anyFilters, setAnyFilters] = useState(false);
   const [filtersCount, setFiltersCount] = useState(0);
+=======
+  const [showFilters, setShowFilters] = useState(false);
+  const [anyFilters, setAnyFilters] = useState(false);
+  const [filtersCount, setFiltersCount] = useState(0);
+  const [finalFilters, setFinalFilters] = useState([]);
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
   const selectedRoom = new URLSearchParams(search).get('pokoj');
   const selectedCategory = new URLSearchParams(search).get('kategoria');
@@ -73,12 +84,20 @@ const Catalog = ({ location: { search } }) => {
       }
     `,
 
+<<<<<<< HEAD
+=======
+    selected: css`
+      background: ${theme.colors.primary_01};
+    `,
+
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
     itemIcon: css`
       margin-top: 10px;
       height: 40px;
       fill: ${theme.colors.text};
     `,
 
+<<<<<<< HEAD
     loading: css`
       width: 50px;
       height: 50px;
@@ -89,6 +108,8 @@ const Catalog = ({ location: { search } }) => {
       }
     `,
 
+=======
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
     searchSection: css`
       display: flex;
       flex-direction: row;
@@ -124,7 +145,11 @@ const Catalog = ({ location: { search } }) => {
     `,
   };
 
+<<<<<<< HEAD
   const fetchFurniture = useCallback(async () => {
+=======
+  const computeFilters = useCallback(async () => {
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
     const filterBy = (type, selected, fromSearchBox, includeParts = false) => {
       const data = ((selected.length > 0) ? selected : [fromSearchBox]).filter(Boolean);
       return data.length === 0 ? undefined : data.map(d => (
@@ -132,12 +157,23 @@ const Catalog = ({ location: { search } }) => {
       )).join(' or ');
     };
 
+<<<<<<< HEAD
+=======
+    const filterByName = () => (
+      filters.searchBox.name ? filters.searchBox.name.map(f => `(Id eq ${f.Id})`).join(' or ') : undefined
+    );
+
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
     const filter = [
       filterBy('color', filters.colors, filters.searchBox.color, true),
       filterBy('pattern', filters.patterns, filters.searchBox.pattern, true),
       filterBy('material', filters.materials, filters.searchBox.material, true),
       filterBy('category', selectedCategory ? [{ categoryId: selectedCategory }] : [], filters.searchBox.category),
       filterBy('room', selectedRoom ? [{ roomId: selectedRoom }] : [], filters.searchBox.room),
+<<<<<<< HEAD
+=======
+      filterByName(),
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
     ].filter(Boolean);
 
     if (filter.length === 0) {
@@ -145,6 +181,7 @@ const Catalog = ({ location: { search } }) => {
       return;
     }
     setAnyFilters(true);
+<<<<<<< HEAD
 
     setIsLoading(true);
     try {
@@ -162,6 +199,14 @@ const Catalog = ({ location: { search } }) => {
   useEffect(() => {
     fetchFurniture();
   }, [fetchFurniture]);
+=======
+    setFinalFilters(filter);
+  }, [filters, selectedCategory, selectedRoom]);
+
+  useEffect(() => {
+    computeFilters();
+  }, [computeFilters]);
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
   useEffect(() => {
     const a = Object.keys(filters).filter(k => k !== 'searchBox').map(k => filters[k].length).reduce((a, b) => a + b);
@@ -186,6 +231,7 @@ const Catalog = ({ location: { search } }) => {
         </Button>
       </section>
 
+<<<<<<< HEAD
 
       {isLoading && (
         <LoadingSpinner css={style.loading} isLoading={isLoading} />
@@ -200,11 +246,22 @@ const Catalog = ({ location: { search } }) => {
       {!isLoading && furniture.length === 0 && anyFilters && (
         <NoItem />
       )}
+=======
+      <FurnitureList filter={finalFilters} anyFilters={anyFilters} perPage={10} />
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
       <h3 css={style.title}>Pokoje</h3>
       <section css={style.grid}>
         {rooms.map(Room => (
+<<<<<<< HEAD
           <Link to={{ pathname: '/katalog', search: `pokoj=${Room.roomId}` }} css={style.gridItem} key={Room.roomId}>
+=======
+          <Link
+            to={{ pathname: '/katalog', search: `pokoj=${Room.roomId}` }}
+            css={[style.gridItem, (parseInt(selectedRoom, 10) === Room.roomId) ? style.selected : null]}
+            key={Room.roomId}
+          >
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
             <Room.icon css={style.itemIcon} />
             <h4>{Room.name}</h4>
           </Link>
@@ -214,7 +271,15 @@ const Catalog = ({ location: { search } }) => {
       <h3 css={style.title}>Kategorie</h3>
       <section css={style.grid}>
         {categories.map(Cat => (
+<<<<<<< HEAD
           <Link to={{ pathname: '/katalog', search: `kategoria=${Cat.categoryId}` }} css={style.gridItem} key={Cat.categoryId}>
+=======
+          <Link
+            to={{ pathname: '/katalog', search: `kategoria=${Cat.categoryId}` }}
+            css={[style.gridItem, (parseInt(selectedCategory, 10) === Cat.categoryId) ? style.selected : null]}
+            key={Cat.categoryId}
+          >
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
             <Cat.icon css={style.itemIcon} />
             <h4>{Cat.name}</h4>
           </Link>

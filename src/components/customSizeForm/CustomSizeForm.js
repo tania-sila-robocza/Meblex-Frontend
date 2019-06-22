@@ -9,12 +9,18 @@ import Button from '../shared/Button';
 import { required, maxLength32, size } from '../../validationRules';
 import ItemResult from '../catalog/ItemResult';
 import * as API from '../../api';
+<<<<<<< HEAD
 import { useTheme } from '../../helpers';
+=======
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
 
 const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
   const [formLoading, setFormLoading] = useState(false);
+<<<<<<< HEAD
   const theme = useTheme();
+=======
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
   const style = {
     furniture: css`
@@ -42,7 +48,11 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
       flex-direction: row;
       align-items: flex-start;
       margin: 10px 0;
+<<<<<<< HEAD
       flex-direction: column-reverse;
+=======
+      flex-direction: column;
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
     `,
 
     fieldLabel: css`
@@ -59,6 +69,7 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
       width: 100%;
     `,
 
+<<<<<<< HEAD
     x: css`
       color: ${theme.colors.primary};
       font-size: 1.2em;
@@ -66,11 +77,14 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
       margin: 0 10px;
     `,
 
+=======
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
     submitButton: css`
       margin: 30px 0;
       display: flex;
       flex-direction: column;
     `,
+<<<<<<< HEAD
 
     sizeHint: css`
       margin-bottom: 20px;
@@ -81,14 +95,20 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
       display: flex;
       flex-direction: row;
     `,
+=======
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
   };
 
   const submitForm = async (values) => {
     setFormLoading(true);
     try {
       await API.addCustomSizeRequest({
+<<<<<<< HEAD
         pieceOfFurnitureId: item.id,
         size: `${values.width}x${values.length}x${values.height}`,
+=======
+        pieceOfFurnitureId: item.id, ...values,
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
       });
 
       toast('✔️ Zapytanie zostało wysłane! Jego status możesz śledzić w profilu', {
@@ -114,6 +134,7 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
         <ItemResult css={style.furniture} data={item} />
       </div>
 
+<<<<<<< HEAD
       <div>
         <h4 css={style.fieldLabel}>Proponowany rozmiar:</h4>
         <span css={style.sizeHint}>(długość ✕ szerokość ✕ wysokość)</span>
@@ -149,6 +170,16 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
           css={style.formField}
           wrapperCss={style.fieldWrapper}
           validate={[required, maxLength32]}
+=======
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Proponowany rozmiar:</h4>
+        <Field
+          name="size"
+          component={FieldX}
+          type="text"
+          css={style.formField}
+          validate={[required, maxLength32, size]}
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
         />
       </div>
 

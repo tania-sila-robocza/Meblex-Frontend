@@ -10,6 +10,10 @@ export const SET_MATERIALS = 'SET_MATERIALS';
 export const SET_ROOMS = 'SET_ROOMS';
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 
+<<<<<<< HEAD
+=======
+export const setListing = data => ({ type: SET_LISTING, payload: data });
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
 export const setColors = colors => ({ type: SET_COLORS, payload: colors });
 
@@ -51,6 +55,7 @@ export const fetchCategories = () => (dispatch) => {
   });
 };
 
+<<<<<<< HEAD
 export const setListing = listing => ({ type: SET_LISTING, payload: listing });
 
 export const fetchListing = () => (dispatch) => {
@@ -59,6 +64,8 @@ export const fetchListing = () => (dispatch) => {
   });
 };
 
+=======
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
 const initState = {
   materials: [],
@@ -66,13 +73,20 @@ const initState = {
   patterns: [],
   rooms: [],
   categories: [],
+<<<<<<< HEAD
   listing: [],
+=======
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 };
 
 const dataReducer = (state = initState, action) => {
   switch (action.type) {
     case SET_LISTING:
+<<<<<<< HEAD
       return { ...state, listing: [...action.payload] };
+=======
+      return { ...state, furniture: action.payload };
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
     case SET_COLORS:
       return { ...state, colors: [...action.payload] };

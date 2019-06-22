@@ -171,7 +171,14 @@ export const getFurniture = (config) => {
     params: {
       $orderby: config.sortBy,
       $top: config.limit,
+<<<<<<< HEAD
       $filter: config.filter,
+=======
+      $skip: config.skip,
+      $filter: config.filter,
+      $search: config.search,
+      $select: config.select,
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
     },
     cancelToken: searchCancelToken.token,
   }).then(res => res.data).catch(err => (
@@ -252,3 +259,24 @@ export const acceptCustomSizeRequest = data => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ))
 );
+<<<<<<< HEAD
+=======
+
+export const getClientOrders = () => (
+  client.get('ShoppingCart/client/list').then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const addOrder = data => (
+  client.post('ShoppingCart/make', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const realizeReservation = id => (
+  client.put(`ShoppingCart/client/realize-reservation/${id}`).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f

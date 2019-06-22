@@ -15,8 +15,25 @@ const initState = {
 
 const cartReducer = (state = initState, action) => {
   switch (action.type) {
+<<<<<<< HEAD
     case ADD_ITEMS_TO_CART:
       return { ...state, items: [...state.items, action.payload] };
+=======
+    case ADD_ITEMS_TO_CART: {
+      const cartItems = [...state.items];
+      let cartItemIndex = -1;
+
+      if (action.payload.item.partId) {
+        cartItemIndex = cartItems.findIndex(el => el.item.partId === action.payload.item.partId);
+      } else {
+        cartItemIndex = cartItems.findIndex(el => el.item.id === action.payload.item.id);
+      }
+
+      if (cartItemIndex !== -1) cartItems[cartItemIndex].amount += action.payload.amount;
+      else cartItems.push(action.payload);
+      return { ...state, items: cartItems };
+    }
+>>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
     case REMOVE_ITEM_FROM_CART:
       return { ...state,
