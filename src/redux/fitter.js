@@ -20,13 +20,8 @@ const fitterReducer = (state = initState, action) => {
     case ADD_ITEM_TO_FITTER:
       return { ...state, items: [...state.items, action.payload] };
 
-    case REMOVE_ITEM_FROM_FITTER: {
-      const index = state.items.indexOf(action.payload);
-      return { ...state,
-        items: [
-          ...state.items.slice(0, index),
-          ...state.items.slice(index + 1),
-        ] }; }
+    case REMOVE_ITEM_FROM_FITTER:
+      return { ...state, items: state.items.filter(id => id !== action.payload) };
 
     case SET_ROOM_SIZE:
       return { ...state, roomSize: action.payload };

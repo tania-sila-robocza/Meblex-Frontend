@@ -88,6 +88,7 @@ select {
   color: $colorTextDark;
   background: $colorBackgroundGray;
   border-radius: 5px;
+  -webkit-user-select: text;
 }
 
 

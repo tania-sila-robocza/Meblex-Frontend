@@ -14,11 +14,7 @@ import Registration from '../registration/Registration';
 import Loading from '../shared/Loading';
 import { setUserData } from '../../redux/auth';
 import Logout from './Logout';
-<<<<<<< HEAD
 import { fetchRooms, fetchCategories, fetchColors, fetchMaterials, fetchPatterns, fetchListing } from '../../redux/data';
-=======
-import { fetchRooms, fetchCategories, fetchColors, fetchMaterials, fetchPatterns } from '../../redux/data';
->>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
 
 const App = withRouter(() => {
@@ -49,10 +45,7 @@ const App = withRouter(() => {
     dispatch(fetchColors());
     dispatch(fetchMaterials());
     dispatch(fetchPatterns());
-<<<<<<< HEAD
     dispatch(fetchListing());
-=======
->>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
   }, [accessToken, dispatch]);
 
   return (

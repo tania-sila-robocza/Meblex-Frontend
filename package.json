@@ -7,6 +7,7 @@
     "axios": "^0.18.0",
     "body-scroll-lock": "^2.6.1",
     "classnames": "^2.2.6",
+    "draggabilly": "^2.2.0",
     "emotion-theming": "^10.0.10",
     "fuse.js": "^3.4.4",
     "gh-pages": "^2.0.1",
@@ -37,7 +38,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cra-append-sw -s ./src/custom-sw.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
@@ -53,6 +54,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "cra-append-sw": "^2.6.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-react-app": "^3.0.8",
     "eslint-plugin-flowtype": "^3.6.1",

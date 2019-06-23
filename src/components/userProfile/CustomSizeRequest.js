@@ -2,18 +2,16 @@
 
 import { jsx, css } from '@emotion/core';
 import Img from 'react-image';
-import { useState } from 'react';
-import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import { useTheme, getCategoryIcon } from '../../helpers';
-import Button from '../shared/Button';
 import config from '../../config';
-import * as API from '../../api';
+import Button from '../shared/Button';
+import { addItemsToCart } from '../../redux/cart';
 
-const RequestItem = ({ request, requestAccepted, ...props }) => {
+const CustomSizeRequest = ({ request, ...props }) => {
   const theme = useTheme();
   const FallbackIcon = getCategoryIcon(request.pieceOfFurniture.category.categoryId);
-  const [price, setPrice] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const style = {
     item: css`
@@ -43,6 +41,7 @@ const RequestItem = ({ request, requestAccepted, ...props }) => {
       display: flex;
       justify-content: center;
       align-items: center;
+      align-self: flex-start;
 
       img {
         width: 100%;
@@ -72,75 +71,40 @@ const RequestItem = ({ request, requestAccepted, ...props }) => {
       font-size: 0.8em;
     `,
 
-    field: css`
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-
-      input {
-        height: 42px;
-      }
-    `,
-
-    fieldWrapper: css`
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      margin: 0 0 10px 0;
-      flex-direction: column;
-    `,
-
-    fieldLabel: css`
-      margin: 0;
-      margin-right: 20px;
-      font-size: .9em;
-      height: 42px;
-      line-height: 42px;
-    `,
-
     cos: css`
       margin: 5px 10px 0 0;
       font-size: 0.8em;
     `,
 
-    data: css`
-      width: 100%;
-      padding: 0 20px;
+    accepted: css`
+      color: green;
     `,
 
-    acceptButton: css`
-      padding: 0px 10px;
+    notAccepted: css`
+      color: red;
+    `,
+
+    addBtn: css`
       margin: 0;
-      height: 42px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      width: 100%;
       font-size: 1em;
-      margin-left: 10px;
+      padding: 10px;
     `,
   };
 
-  const handlePriceChange = ({ target }) => {
-    setPrice(target.value);
-  };
-
-  const approveRequest = async () => {
-    setIsLoading(true);
-    try {
-      await API.acceptCustomSizeRequest({
-        customSizeFormId: request.customSizeFormId,
-        price,
-      });
-
-      toast('✔️ Zapytanie zostało zaakceptowane!');
-      requestAccepted();
-    } catch (error) {
-      //
-    } finally {
-      setIsLoading(false);
-    }
+  const handleClick = () => {
+    dispatch(addItemsToCart({
+      amount: 1,
+      product: request.pieceOfFurniture.id,
+    }));
   };
 
   return (
     <div css={style.item} {...props}>
       <div css={style.info}>
+
         <div css={style.image}>
           <Img
             src={`${config.IMAGES_SERVER}${request.pieceOfFurniture.photos[0]}`}
@@ -148,38 +112,37 @@ const RequestItem = ({ request, requestAccepted, ...props }) => {
             unloader={<FallbackIcon css={style.fallbackIcon} />}
           />
         </div>
+
         <div css={style.textBox}>
           <h4 css={style.text}>{request.pieceOfFurniture.name}</h4>
+
           <div css={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}>
             <p css={style.cos}>Rozmiar:</p>
             <h3 css={style.size}>{request.pieceOfFurniture.size.split('x').join(' x ')}</h3>
           </div>
-        </div>
-      </div>
 
-      <div css={style.data}>
-        <div css={style.fieldWrapper}>
-          <h4 css={style.fieldLabel}>Przewidywana cena:</h4>
-          <div css={style.field}>
-            <input
-              css={{ width: 0, flex: 1 }}
-              type="number"
-              name="price"
-              value={price}
-              onChange={handlePriceChange}
-            />
-
-            <Button
-              css={style.acceptButton}
-              isLoading={isLoading}
-              onClick={approveRequest}
-            >Zatwierdź
-            </Button>
+          <div css={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}>
+            <p css={style.cos}>Status:</p>
+            {request.approved ? (
+              <h3 css={[style.size, style.accepted]}>ZATWIERDZONO</h3>
+            ) : (
+              <h3 css={[style.size, style.notAccepted]}>NIE ZATWIERDZONO</h3>
+            )}
           </div>
+
+          {request.approved && (
+            <Button
+              variant="secondary"
+              css={style.addBtn}
+              onClick={handleClick}
+            >Dodaj do koszyka
+            </Button>
+          )}
         </div>
+
       </div>
     </div>
   );
 };
 
-export default RequestItem;
+export default CustomSizeRequest;

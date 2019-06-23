@@ -69,14 +69,10 @@ const MaterialsForm = ({ handleSubmit, error, reset }) => {
     setIsLoading(true);
     try {
       const slug = slugify(values.name, { lower: true });
-      const reader = new FileReader();
-      reader.readAsDataURL(values.photo.files[0]);
-      reader.onload = async () => {
-        await API.addMaterial({ ...values, slug, photo: reader.result });
-        reset();
-        toast(`✔️ Dodano materiał ${values.name}!`);
-        dispatch(fetchMaterials());
-      };
+      await API.addMaterial({ ...values, slug, photo: values.photo[0] });
+      reset();
+      toast(`✔️ Dodano materiał ${values.name}!`);
+      dispatch(fetchMaterials());
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,

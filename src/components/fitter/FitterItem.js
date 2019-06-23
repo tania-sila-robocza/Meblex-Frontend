@@ -3,6 +3,7 @@
 import { css, jsx } from '@emotion/core';
 import Img from 'react-image';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import config from '../../config';
 import { useTheme, getCategoryIcon } from '../../helpers';
 import { Icons } from '../../assets';
@@ -55,6 +56,7 @@ const FitterItem = ({ product, handleRemove }) => {
 
     info: css`
       flex: 1;
+      text-decoration: none;
     `,
   };
 
@@ -67,10 +69,10 @@ const FitterItem = ({ product, handleRemove }) => {
         unloader={<FallbackIcon css={style.fallbackIcon} />}
       />
 
-      <div css={style.info}>
+      <Link to={`/katalog/produkty/${product.id}`} css={style.info}>
         <h4>{product.name}</h4>
         <p>{product.size.split('x').join(' x ')}</p>
-      </div>
+      </Link>
 
       <span css={style.remove} role="button" tabIndex={0} onClick={() => handleRemove(product.id)}>
         <Icons.Close2 />

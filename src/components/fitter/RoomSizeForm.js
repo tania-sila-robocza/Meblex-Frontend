@@ -2,17 +2,23 @@
 
 import { jsx, css } from '@emotion/core';
 import { Field, reduxForm } from 'redux-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useRef, useEffect, useState } from 'react';
 import { useTheme } from '../../helpers';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
 import { setRoomSize } from '../../redux/fitter';
+import DraggablePoF from './DraggablePoF';
 
 
-const RoomSizeForm = ({ handleSubmit }) => {
+const RoomSizeForm = ({ handleSubmit, furniture }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const roomBox = useRef();
+  const roomSize = useSelector(state => state.fitter.roomSize);
+  const items = useSelector(state => state.fitter.items);
+  const [factor, setFactor] = useState(0);
 
   const style = {
     form: css`
@@ -73,17 +79,46 @@ const RoomSizeForm = ({ handleSubmit }) => {
     checkBtn: css`
       margin: 30px 0 10px;
     `,
+
+    room: css`
+      border: 1px solid ${theme.colors.primary};
+      /* box-sizing: content-box; */
+      margin-top: 20px;
+      height: 200px;
+      position: relative;
+    `,
+
+    heightError: css`
+      color: red;
+      font-weight: bold;
+      margin: 0;
+      margin-top: 20px;
+      text-align: center;
+    `,
   };
 
   const formSubmit = (values) => {
     dispatch(setRoomSize(values));
   };
 
+  useEffect(() => {
+    if (roomBox.current) {
+      const { width } = roomBox.current.getBoundingClientRect();
+      const realWidth = roomSize.width;// Math.min(roomSize.width, roomSize.length);
+      const realHeight = roomSize.length;// Math.max(roomSize.width, roomSize.length);
+
+      const factor = width / realWidth;
+      setFactor(factor);
+
+      roomBox.current.style.width = `${width}px`;
+      roomBox.current.style.height = `${realHeight * factor}px`;
+    }
+  }, [roomSize]);
+
   return (
     <form css={style.form} onSubmit={handleSubmit(formSubmit)}>
       <h3 css={style.fieldLabel}>Podaj wymiary pokoju (w cm)</h3>
       <span css={style.sizeHint}>(długość ✕ szerokość ✕ wysokość)</span>
-
       <div css={style.sizes}>
         <Field
           name="width"
@@ -117,7 +152,22 @@ const RoomSizeForm = ({ handleSubmit }) => {
         />
 
       </div>
-      <Button type="submit" css={style.checkBtn}>Sprawdź!</Button>
+      <Button css={style.checkBtn} type="submit">Zatwierdź</Button>
+
+      {furniture.some((f) => {
+        const size = f.size.split('x').map(s => parseInt(s, 10));
+        return (size[0] > roomSize.width) || (size[1] > roomSize.length) || (size[2] > roomSize.height);
+      }) ? (
+        <p css={style.heightError}>Co najmniej jeden mebel przekracza rozmiary pokoju!</p>
+        ) : (
+          Object.keys(roomSize).length > 0 && (
+          <div css={style.room} ref={roomBox}>
+            {furniture.length > 0 && items.map((f, i) => (
+              <DraggablePoF factor={factor} product={furniture.filter(x => x.id === f)[0]} key={i} />
+            ))}
+          </div>
+          )
+        )}
     </form>
   );
 };
