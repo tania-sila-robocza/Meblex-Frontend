@@ -15,10 +15,6 @@ const initState = {
 
 const cartReducer = (state = initState, action) => {
   switch (action.type) {
-<<<<<<< HEAD
-    case ADD_ITEMS_TO_CART:
-      return { ...state, items: [...state.items, action.payload] };
-=======
     case ADD_ITEMS_TO_CART: {
       const cartItems = [...state.items];
       let cartItemIndex = -1;
@@ -33,7 +29,6 @@ const cartReducer = (state = initState, action) => {
       else cartItems.push(action.payload);
       return { ...state, items: cartItems };
     }
->>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 
     case REMOVE_ITEM_FROM_CART:
       return { ...state,

@@ -15,11 +15,7 @@ const ItemResult = ({ data, ...props }) => {
       display: flex;
       flex-direction: row;
       align-items: center;
-<<<<<<< HEAD
-      padding: 20px 20px;
-=======
       padding: 10px 20px;
->>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
       text-decoration: none;
       width: 100%;
     `,
@@ -67,9 +63,6 @@ const ItemResult = ({ data, ...props }) => {
   };
 
   return (
-<<<<<<< HEAD
-    <Link to={`katalog/produkty/${data.id}`} css={style.result} {...props}>
-=======
     <Link
       to={{
         pathname: `katalog/produkty/${data.id}`,
@@ -78,7 +71,6 @@ const ItemResult = ({ data, ...props }) => {
       css={style.result}
       {...props}
     >
->>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
       <div css={style.image}>
         <Img
           src={`${config.IMAGES_SERVER}${data.photos[0]}`}

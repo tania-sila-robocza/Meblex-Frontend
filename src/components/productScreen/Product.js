@@ -3,10 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { css, jsx } from '@emotion/core';
 import { Link } from 'react-router-dom';
-<<<<<<< HEAD
-=======
 import { error } from 'util';
->>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
 import Button from '../shared/Button';
 import Breadcrumbs from '../shared/Breadcrumbs';
 import PartsBox from './PartsBox';
@@ -15,16 +12,10 @@ import ProductInfo from './ProductInfo';
 import * as API from '../../api';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import config from '../../config';
-<<<<<<< HEAD
-
-
-const Product = ({ match: { params } }) => {
-=======
 import NoItem from '../shared/NoItem';
 
 
 const Product = ({ match: { params }, location: { state } }) => {
->>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
   const [isLoading, setIsLoading] = useState(true);
   const [product, setProduct] = useState();
 
@@ -125,27 +116,11 @@ const Product = ({ match: { params }, location: { state } }) => {
         const res = await API.getPieceOfFurniture(params.product);
         setProduct(res);
       } catch (err) {
-<<<<<<< HEAD
-        //
-=======
         console.log(error);
->>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
       } finally {
         setIsLoading(false);
       }
     };
-<<<<<<< HEAD
-    fetchPoF();
-  }, [params.product]);
-
-  return (
-    <React.Fragment>
-      {isLoading ? (
-        <div css={style.loadingWrapper}>
-          <LoadingSpinner css={style.loading} isLoading={isLoading} />
-        </div>
-      ) : (
-=======
 
     if (state && state.product) {
       setProduct(state.product);
@@ -166,7 +141,6 @@ const Product = ({ match: { params }, location: { state } }) => {
       )}
 
       {!isLoading && product && (
->>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
         <React.Fragment>
           <Breadcrumbs paths={[
             { name: product.room.name, url: `/katalog?pokoj=${product.room.roomId}` },
@@ -202,11 +176,7 @@ const Product = ({ match: { params }, location: { state } }) => {
             </div>
 
             {product.parts.length > 0 && (
-<<<<<<< HEAD
-              <PartsBox parts={product.parts} />
-=======
               <PartsBox product={product} />
->>>>>>> e5bd51b4b8a93e0652c02c44f7430a901937875f
             )}
           </div>
         </React.Fragment>

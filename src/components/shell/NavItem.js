@@ -3,6 +3,7 @@
 import { jsx, css } from '@emotion/core';
 import { NavLink } from 'react-router-dom';
 import { useTheme } from '../../helpers';
+import { ripple } from '../../styles';
 
 
 const NavItem = ({ text, icon: Icon, ...props }) => {
@@ -10,6 +11,7 @@ const NavItem = ({ text, icon: Icon, ...props }) => {
 
   const style = {
     navItem: css`
+      ${ripple()};
       display: flex;
       flex: 1;
       text-decoration: none;
