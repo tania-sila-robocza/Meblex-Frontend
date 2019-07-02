@@ -2,7 +2,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
-import { useSelector, useActions } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { SubmissionError } from 'redux-form';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -11,11 +11,11 @@ import PasswordChangeForm from './PasswordChangeForm';
 import EmailChangeForm from './EmailChangeForm';
 import * as API from '../../api';
 
-import { setUserData as setUserDataAction } from '../../redux/auth';
+import { setUserData } from '../../redux/auth';
 
 const UserProfile = () => {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
-  const setUserData = useActions(data => setUserDataAction(data));
 
   const [userUpdateLoading, setUserUpdateLoading] = useState(false);
   const [emailUpdateLoading, setEmailUpdateLoading] = useState(false);
@@ -45,7 +45,7 @@ const UserProfile = () => {
         ...values,
         nip: (values.nip === '' ? null : values.nip),
       });
-      setUserData(userData);
+      dispatch(setUserData(userData));
       toast('✔️ Zaktualizowano dane!');
     } catch (error) {
       throw new SubmissionError({
